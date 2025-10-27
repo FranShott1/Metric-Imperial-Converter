@@ -1,20 +1,25 @@
 function ConvertHandler() {
-  
+
   this.getNum = function(input) {
     let numRegex = /^[0-9.\/]+/;
     let match = input.match(numRegex);
 
-    if (!match) return 1;
+    if (!match) return 1; // ✅ Esto está bien
+
     let numString = match[0];
+
+    // Verificar doble fracción
     let fractionCount = (numString.match(/\//g) || []).length;
     if (fractionCount > 1) return null;
 
+    // Si tiene fracción
     if (numString.includes('/')) {
       let [numerator, denominator] = numString.split('/');
       let result = parseFloat(numerator) / parseFloat(denominator);
       return isNaN(result) ? null : result;
     }
 
+    // Si es número decimal o entero
     let result = parseFloat(numString);
     return isNaN(result) ? null : result;
   };
@@ -55,7 +60,7 @@ function ConvertHandler() {
     };
     return unitNames[unit];
   };
-  
+
   this.convert = function(initNum, initUnit) {
     const galToL = 3.78541;
     const lbsToKg = 0.453592;
@@ -73,7 +78,7 @@ function ConvertHandler() {
 
     return Math.round(result * 100000) / 100000;
   };
-  
+
   this.getString = function(initNum, initUnit, returnNum, returnUnit) {
     return `${initNum} ${this.spellOutUnit(initUnit)} converts to ${returnNum} ${this.spellOutUnit(returnUnit)}`;
   };
