@@ -44,22 +44,25 @@ app.use(function(req, res, next) {
     .send('Not Found');
 });
 
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 //Start our server and tests!
-app.listen(port, '0.0.0.0', function () {
-  console.log("Listening on port " + port);
-  if(process.env.NODE_ENV==='test') {
-    console.log('Running Tests...');
-    setTimeout(function () {
-      try {
-        runner.run();
-      } catch(e) {
-          console.log('Tests are not valid:');
-          console.error(e);
-      }
-    }, 1500);
-  }
-});
+// Solo levanta el servidor si se ejecuta directamente (no cuando se importa)
+if (require.main === module) {
+  app.listen(port, '0.0.0.0', function () {
+    console.log("Listening on port " + port);
+    if(process.env.NODE_ENV==='test') {
+      console.log('Running Tests...');
+      setTimeout(function () {
+        try {
+          runner.run();
+        } catch(e) {
+            console.log('Tests are not valid:');
+            console.error(e);
+        }
+      }, 1500);
+    }
+  });
+}
 
 module.exports = app; //for testing
