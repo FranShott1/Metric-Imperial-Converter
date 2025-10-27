@@ -36,7 +36,7 @@ fccTestingRoutes(app);
 
 //Routing for API 
 apiRoutes(app);  
-    
+
 //404 Not Found Middleware
 app.use(function(req, res, next) {
   res.status(404)
@@ -44,25 +44,22 @@ app.use(function(req, res, next) {
     .send('Not Found');
 });
 
-// Use port 5000 in Replit, otherwise use environment variable or default
-const port = (require.main === module && process.env.REPL_ID) ? 5000 : (process.env.PORT || 3000);
+const port = process.env.PORT || 3000;
 
 //Start our server and tests!
-if (require.main === module) {
-  app.listen(port, '0.0.0.0', function () {
-    console.log("Listening on port " + port);
-    if(process.env.NODE_ENV==='test') {
-      console.log('Running Tests...');
-      setTimeout(function () {
-        try {
-          runner.run();
-        } catch(e) {
-            console.log('Tests are not valid:');
-            console.error(e);
-        }
-      }, 1500);
-    }
-  });
-}
+app.listen(port, '0.0.0.0', function () {
+  console.log("Listening on port " + port);
+  if(process.env.NODE_ENV==='test') {
+    console.log('Running Tests...');
+    setTimeout(function () {
+      try {
+        runner.run();
+      } catch(e) {
+          console.log('Tests are not valid:');
+          console.error(e);
+      }
+    }, 1500);
+  }
+});
 
 module.exports = app; //for testing
